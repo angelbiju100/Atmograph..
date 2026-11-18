@@ -16,13 +16,15 @@ function CustomNode({ data, selected }) {
 
   return (
     <div
-  className={`custom-node ${nodeType} ${risk} {data.isImpacted && (
-  <span className="impact-label">IMPACTED</span>
-)} ${
-    selected ? "selected" : ""
-  } ${data.isImpacted ? "impacted" : ""}`}
->
+      className={`custom-node ${nodeType} ${risk} ${
+        selected ? "selected" : ""
+      } ${data.isImpacted ? "impacted" : ""}`}
+    >
       <Handle type="target" position={Position.Left} />
+
+      {data.isImpacted && (
+        <span className="impact-label">IMPACTED</span>
+      )}
 
       <div className="custom-node-header">
         <div className="custom-node-icon">
@@ -50,3 +52,4 @@ function CustomNode({ data, selected }) {
 }
 
 export default CustomNode;
+

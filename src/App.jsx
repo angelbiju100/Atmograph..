@@ -1,3 +1,5 @@
+
+import RiskMonitoring from "./pages/RiskMonitoring";
 import { useState } from "react";
 import Predictions from "./components/Predictions";
 import NetworkGraph from "./components/NetworkGraph";
@@ -155,135 +157,153 @@ onClick={() => setActivePage(item.name)}
           </div>
         </header>
 
-        <section className="dashboard">
-          {activePage === "Predictions" ? (
-  <>
+       
+<section className="dashboard">
+
+  {activePage === "Predictions" ? (
+    <>
+      <div className="page-heading">
+        <div>
+          <p className="eyebrow">ANALYTICS / FORECASTING</p>
+          <h1>Predictions & Forecasts</h1>
+          <p className="subtitle">
+            Explore projected supply chain disruption risks.
+          </p>
+        </div>
+      </div>
+
+      <Predictions />
+
+      <div className="footer-note">
+        <span>ATMOGRAPH INTELLIGENCE PLATFORM</span>
+        <span>DEMO DATA · FRONTEND DEVELOPMENT</span>
+      </div>
+    </>
+
+  ) : activePage === "Risk Monitoring" ? (
+    <>
+      <RiskMonitoring />
+
+      <div className="footer-note">
+        <span>ATMOGRAPH INTELLIGENCE PLATFORM</span>
+        <span>DEMO DATA · FRONTEND DEVELOPMENT</span>
+      </div>
+    </>
+
+  ) : activePage === "Dashboard" ? (
+    <>
+      <div className="page-heading">
+        <div>
+          <p className="eyebrow">OVERVIEW / 2026</p>
+          <h1>Supply Chain Intelligence</h1>
+          <p className="subtitle">
+            Monitor disruptions. Understand risks. Predict what happens next.
+          </p>
+        </div>
+
+        <button className="date-button">
+          <Clock3 size={16} />
+          Last 30 days
+        </button>
+      </div>
+
+      <div className="stats-grid">
+        {stats.map((stat) => {
+          const Icon = stat.icon;
+
+          return (
+            <div className="stat-card" key={stat.title}>
+              <div className="stat-top">
+                <span>{stat.title}</span>
+                <Icon size={19} />
+              </div>
+
+              <div className="stat-value">{stat.value}</div>
+
+              <div className="stat-change">
+                <ArrowUpRight size={15} />
+                {stat.change}
+                <span>vs last month</span>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="content-grid">
+        <section className="panel network-panel">
+          <div className="panel-heading">
+            <div>
+              <h2>Supply Network Overview</h2>
+              <p>Visualize connections across your global supply chain</p>
+            </div>
+
+            <span className="live-tag">
+              <span className="status-dot"></span>
+              LIVE MONITORING
+            </span>
+          </div>
+
+          <NetworkGraph />
+
+          <div className="graph-footer">
+            <span><i className="legend-dot blue"></i> Suppliers</span>
+            <span><i className="legend-dot purple"></i> Manufacturers</span>
+            <span><i className="legend-dot red"></i> High risk</span>
+          </div>
+        </section>
+
+        <section className="panel alerts-panel">
+          <div className="panel-heading">
+            <div>
+              <h2>Risk Alerts</h2>
+              <p>Latest supply chain disruptions</p>
+            </div>
+            <button className="text-button">View all</button>
+          </div>
+
+          <div className="alerts-list">
+            {alerts.map((alert) => (
+              <div className="alert-item" key={alert.title}>
+                <div className="alert-icon">
+                  <AlertTriangle size={18} />
+                </div>
+
+                <div className="alert-details">
+                  <strong>{alert.title}</strong>
+                  <span>{alert.location}</span>
+                  <small>{alert.time}</small>
+                </div>
+
+                <span className={`risk-badge ${alert.risk.toLowerCase()}`}>
+                  {alert.risk}
+                </span>
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
+
+      <div className="footer-note">
+        <span>ATMOGRAPH INTELLIGENCE PLATFORM</span>
+        <span>DEMO DATA · FRONTEND DEVELOPMENT</span>
+      </div>
+    </>
+
+  ) : (
     <div className="page-heading">
       <div>
-        <p className="eyebrow">ANALYTICS / FORECASTING</p>
-        <h1>Predictions & Forecasts</h1>
+        <p className="eyebrow">ATMOGRAPH / WORKSPACE</p>
+        <h1>{activePage}</h1>
         <p className="subtitle">
-          Explore projected supply chain disruption risks.
+          This section is under development.
         </p>
       </div>
     </div>
+  )}
 
-    <Predictions />
+</section>
 
-    <div className="footer-note">
-      <span>ATMOGRAPH INTELLIGENCE PLATFORM</span>
-      <span>DEMO DATA · FRONTEND DEVELOPMENT</span>
-    </div>
-  </>
-) : activePage === "Dashboard" ? ( <>
-          <div className="page-heading">
-            <div>
-              <p className="eyebrow">OVERVIEW / 2026</p>
-              <h1>Supply Chain Intelligence</h1>
-              <p className="subtitle">
-                Monitor disruptions. Understand risks. Predict what happens next.
-              </p>
-            </div>
-
-            <button className="date-button">
-              <Clock3 size={16} />
-              Last 30 days
-            </button>
-          </div>
-
-          <div className="stats-grid">
-            {stats.map((stat) => {
-              const Icon = stat.icon;
-
-              return (
-                <div className="stat-card" key={stat.title}>
-                  <div className="stat-top">
-                    <span>{stat.title}</span>
-                    <Icon size={19} />
-                  </div>
-
-                  <div className="stat-value">{stat.value}</div>
-
-                  <div className="stat-change">
-                    <ArrowUpRight size={15} />
-                    {stat.change}
-                    <span>vs last month</span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          <div className="content-grid">
-            <section className="panel network-panel">
-              <div className="panel-heading">
-                <div>
-                  <h2>Supply Network Overview</h2>
-                  <p>Visualize connections across your global supply chain</p>
-                </div>
-                <span className="live-tag">
-                  <span className="status-dot"></span>
-                  LIVE MONITORING
-                </span>
-              </div>
-
-              <NetworkGraph />
-
-              <div className="graph-footer">
-                <span><i className="legend-dot blue"></i> Suppliers</span>
-                <span><i className="legend-dot purple"></i> Manufacturers</span>
-                <span><i className="legend-dot red"></i> High risk</span>
-              </div>
-            </section>
-
-            <section className="panel alerts-panel">
-              <div className="panel-heading">
-                <div>
-                  <h2>Risk Alerts</h2>
-                  <p>Latest supply chain disruptions</p>
-                </div>
-                <button className="text-button">View all</button>
-              </div>
-
-              <div className="alerts-list">
-                {alerts.map((alert) => (
-                  <div className="alert-item" key={alert.title}>
-                    <div className="alert-icon">
-                      <AlertTriangle size={18} />
-                    </div>
-
-                    <div className="alert-details">
-                      <strong>{alert.title}</strong>
-                      <span>{alert.location}</span>
-                      <small>{alert.time}</small>
-                    </div>
-
-                    <span className={`risk-badge ${alert.risk.toLowerCase()}`}>
-                      {alert.risk}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </section>
-          </div>
-
-          <div className="footer-note">
-            <span>ATMOGRAPH INTELLIGENCE PLATFORM</span>
-            <span>DEMO DATA · FRONTEND DEVELOPMENT</span>
-          </div>
-          </>
-          ) : (
-  <div className="page-heading">
-    <div>
-      <p className="eyebrow">ATMOGRAPH / WORKSPACE</p>
-      <h1>{activePage}</h1>
-      <p className="subtitle">
-        This section is under development.
-      </p>
-    </div>
-  </div>
-)}
-        </section>
       </main>
     </div>
   );

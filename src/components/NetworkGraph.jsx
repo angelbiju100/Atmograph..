@@ -123,10 +123,10 @@ const visibleEdges = edges.filter(
       setSearchTerm("");
       setRiskFilter("All");
       setSelectedNode(null);
+      setImpactedNodeIds([]);
     }}
   >
     Reset
-    setImpactedNodeIds([]);
   </button>
   {selectedNode && (
   <div className="impact-dashboard">
@@ -255,5 +255,6 @@ const visibleEdges = edges.filter(
   );
 }
 
+export { getDownstreamNodeIds };
 export default NetworkGraph;
 

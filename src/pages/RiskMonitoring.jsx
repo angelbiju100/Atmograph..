@@ -1,0 +1,362 @@
+import { initialNodes, initialEdges } from "../data/mockGraph";
+import { getDownstreamNodeIds } from "../components/NetworkGraph";
+import { useState } from "react";
+import {
+  AlertTriangle,
+  ShieldAlert,
+  Activity,
+  TrendingUp,
+  Search,
+} from "lucide-react";
+
+function RiskMonitoring() {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [riskFilter, setRiskFilter] = useState("All");
+  const [selectedEntity, setSelectedEntity] = useState(null);
+
+  const riskEntities = [
+    {
+      id: 1,
+      name: "Rotterdam Port",
+      type: "Port",
+      location: "Netherlands",
+      score: 92,
+      risk: "High",
+      disruption: "Port Congestion",
+    },
+    {
+      id: 2,
+      name: "European Supplier",
+      type: "Supplier",
+      location: "Germany",
+      score: 65,
+      risk: "Medium",
+      disruption: "Shipping Delays",
+    },
+    {
+      id: 3,
+      name: "Electronics Factory",
+      type: "Manufacturer",
+      location: "Germany",
+      score: 85,
+      risk: "High",
+      disruption: "Component Shortage",
+    },
+    {
+      id: 4,
+      name: "Component Supplier",
+      type: "Supplier",
+      location: "China",
+      score: 25,
+      risk: "Low",
+      disruption: "No Active Disruption",
+    },
+    {
+      id: 5,
+      name: "North American Factory",
+      type: "Manufacturer",
+      location: "USA",
+      score: 58,
+      risk: "Medium",
+      disruption: "Transport Delays",
+    },
+    {
+      id: 6,
+      name: "Hamburg Port",
+      type: "Port",
+      location: "Germany",
+      score: 88,
+      risk: "High",
+      disruption: "Weather Disruption",
+    },
+  ];
+  const selectedGraphNode = selectedEntity
+  ? initialNodes.find((node) => node.data.label === selectedEntity.name)
+  : null;
+
+const downstreamNodeIds = selectedGraphNode
+  ? getDownstreamNodeIds(selectedGraphNode.id, initialEdges)
+  : [];
+
+const downstreamNodes = initialNodes.filter((node) =>
+  downstreamNodeIds.includes(node.id)
+);
+
+const downstreamCountries = [
+  ...new Set(downstreamNodes.map((node) => node.data.country)),
+];
+
+  const filteredEntities = riskEntities.filter((entity) => {
+    const search = searchTerm.trim().toLowerCase();
+
+const matchesSearch =
+  entity.name.toLowerCase().includes(search) ||
+  entity.location.toLowerCase().includes(search) ||
+  entity.type.toLowerCase().includes(search) ||
+  entity.risk.toLowerCase().includes(search) ||
+  `${entity.risk} risk`.toLowerCase().includes(search) ||
+  entity.disruption.toLowerCase().includes(search);
+    const matchesRisk =
+      riskFilter === "All" || entity.risk?.trim().toLowerCase() === riskFilter.trim().toLowerCase();
+
+    return matchesSearch && matchesRisk;
+  });
+
+
+  return (
+    <div className="risk-monitoring-page">
+      <div className="page-heading">
+        <div>
+          <p className="eyebrow">ANALYTICS / RISK MONITORING</p>
+          <h1>Risk Monitoring</h1>
+          <p className="subtitle">
+            Monitor supply-chain vulnerabilities and identify
+            high-risk entities across your network.
+          </p>
+        </div>
+      </div>
+
+      <div className="risk-overview-grid">
+
+  <div className="risk-overview-card high">
+    <div className="risk-card-top">
+      <span>High Risk</span>
+      <ShieldAlert size={20} />
+    </div>
+    <h2>18</h2>
+    <p>Entities requiring immediate attention</p>
+  </div>
+
+  <div className="risk-overview-card medium">
+    <div className="risk-card-top">
+      <span>Medium Risk</span>
+      <AlertTriangle size={20} />
+    </div>
+    <h2>42</h2>
+    <p>Entities requiring close monitoring</p>
+  </div>
+
+  <div className="risk-overview-card low">
+    <div className="risk-card-top">
+      <span>Low Risk</span>
+      <Activity size={20} />
+    </div>
+    <h2>126</h2>
+    <p>Entities operating with lower risk</p>
+  </div>
+
+  <div className="risk-overview-card total">
+    <div className="risk-card-top">
+      <span>Total Monitored</span>
+      <TrendingUp size={20} />
+    </div>
+    <h2>186</h2>
+    <p>Entities currently being monitored</p>
+  </div>
+
+</div>
+
+      
+<div className="risk-table-section">
+
+  <div className="risk-table-heading">
+    <div>
+      <h2>Risk Assessment</h2>
+      <p>Identify and investigate vulnerable supply-chain entities.</p>
+    </div>
+    <span className="live-tag">RISK REGISTER</span>
+  </div>
+
+  <div className="risk-table-controls">
+    <div className="risk-search">
+      <Search size={18} />
+      <input
+        type="text"
+        placeholder="Search entity or location..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+    </div>
+
+    <select
+      value={riskFilter}
+      onChange={(e) => setRiskFilter(e.target.value)}
+    >
+      <option value="All">All Risks</option>
+      <option value="High">High Risk</option>
+      <option value="Medium">Medium Risk</option>
+      <option value="Low">Low Risk</option>
+    </select>
+  </div>
+
+  <div className="risk-table-wrapper">
+    <table className="risk-table">
+      <thead>
+        <tr>
+          <th>Entity</th>
+          <th>Type</th>
+          <th>Location</th>
+          <th>Risk Score</th>
+          <th>Risk Level</th>
+          <th>Disruption</th>
+        </tr>
+      </thead>
+
+     
+<tbody>
+  {filteredEntities.length > 0 ? (
+    filteredEntities.map((entity) => (
+      <tr
+        key={entity.id}
+        className="clickable-risk-row"
+        onClick={() => setSelectedEntity(entity)}
+      >
+        <td className="entity-name">{entity.name}</td>
+
+        <td>{entity.type}</td>
+
+        <td>{entity.location}</td>
+
+        <td>
+          <strong>{entity.score}/100</strong>
+        </td>
+
+        <td>
+          <span className={`risk-badge ${entity.risk.toLowerCase()}`}>
+            {entity.risk}
+          </span>
+        </td>
+
+        <td>{entity.disruption}</td>
+      </tr>
+    ))
+  ) : (
+    <tr>
+      <td colSpan="6" className="empty-risk">
+        No matching entities found.
+      </td>
+    </tr>
+  )}
+</tbody>
+
+    </table>
+  </div>
+
+  <div className="risk-table-footer">
+    Showing {filteredEntities.length} of {riskEntities.length} entities
+  </div>
+
+{selectedEntity && (
+  <div className="risk-details-panel">
+
+    <div className="risk-details-header">
+      <div>
+        <p className="eyebrow">ENTITY / RISK INVESTIGATION</p>
+        <h2>{selectedEntity.name}</h2>
+        <p>{selectedEntity.type} · {selectedEntity.location}</p>
+      </div>
+
+      <button
+        className="close-risk-details"
+        onClick={() => setSelectedEntity(null)}
+      >
+        ✕
+      </button>
+    </div>
+
+    <div className="risk-details-content">
+
+      <div className="risk-score-box">
+        <span>Risk Score</span>
+        <h2>{selectedEntity.score}<small>/100</small></h2>
+        <span className={`risk-badge ${selectedEntity.risk.toLowerCase()}`}>
+          {selectedEntity.risk} Risk
+        </span>
+      </div>
+
+      <div className="risk-info-box">
+        <span>Reported Disruption</span>
+        <h3>{selectedEntity.disruption}</h3>
+        <p>
+          This entity has been flagged for supply-chain risk monitoring.
+        </p>
+      </div>
+
+      <div className="risk-info-box">
+        <span>Recommended Mitigation</span>
+        <h3>
+          {selectedEntity.risk === "High"
+            ? "Activate alternative suppliers"
+            : selectedEntity.risk === "Medium"
+            ? "Monitor supplier performance"
+            : "Continue routine monitoring"}
+        </h3>
+        <p>
+          Suggested action based on the current demo risk classification.
+        </p>
+      </div>
+
+    </div>
+
+<div className="downstream-impact-section">
+  <div className="downstream-impact-heading">
+    <div>
+      <span>NETWORK INTELLIGENCE</span>
+      <h3>Downstream Impact Analysis</h3>
+      <p>Connected entities potentially affected by this disruption.</p>
+    </div>
+
+    <span className="impact-count-badge">
+      {downstreamNodes.length} affected
+    </span>
+  </div>
+
+  {selectedGraphNode ? (
+    downstreamNodes.length > 0 ? (
+      <>
+        <div className="downstream-impact-summary">
+          <div>
+            <strong>{downstreamNodes.length}</strong>
+            <span>Affected entities</span>
+          </div>
+          <div>
+            <strong>{downstreamCountries.length}</strong>
+            <span>Countries</span>
+          </div>
+        </div>
+
+        <div className="downstream-entity-list">
+          {downstreamNodes.map((node) => (
+            <div className="downstream-entity" key={node.id}>
+              <div>
+                <strong>{node.data.label}</strong>
+                <span>{node.data.type} · {node.data.country}</span>
+              </div>
+
+              <span className={`risk-badge ${node.data.risk.toLowerCase()}`}>
+                {node.data.risk}
+              </span>
+            </div>
+          ))}
+        </div>
+      </>
+    ) : (
+      <p>No downstream entities are connected to this node.</p>
+    )
+  ) : (
+    <p>This entity is not yet included in the current supply network graph.</p>
+  )}
+</div>
+
+
+  </div>
+)}
+
+
+</div>
+
+    </div>
+  );
+}
+
+export default RiskMonitoring;
