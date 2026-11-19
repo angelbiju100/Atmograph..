@@ -70,6 +70,19 @@ function RiskMonitoring() {
       disruption: "Weather Disruption",
     },
   ];
+  const highRiskCount = riskEntities.filter(
+  (entity) => entity.risk === "High"
+).length;
+
+const mediumRiskCount = riskEntities.filter(
+  (entity) => entity.risk === "Medium"
+).length;
+
+const lowRiskCount = riskEntities.filter(
+  (entity) => entity.risk === "Low"
+).length;
+
+const totalMonitored = riskEntities.length;
   const selectedGraphNode = selectedEntity
   ? initialNodes.find((node) => node.data.label === selectedEntity.name)
   : null;
@@ -102,6 +115,14 @@ const matchesSearch =
     return matchesSearch && matchesRisk;
   });
 
+  const sortedEntities = [...filteredEntities].sort(
+  (a, b) => b.score - a.score
+);
+const filteredCount = filteredEntities.length;
+
+const filteredPercentage = Math.round(
+  (filteredCount / riskEntities.length) * 100
+);
 
   return (
     <div className="risk-monitoring-page">
@@ -123,7 +144,7 @@ const matchesSearch =
       <span>High Risk</span>
       <ShieldAlert size={20} />
     </div>
-    <h2>18</h2>
+    <h2>{highRiskCount}</h2>
     <p>Entities requiring immediate attention</p>
   </div>
 
@@ -132,7 +153,7 @@ const matchesSearch =
       <span>Medium Risk</span>
       <AlertTriangle size={20} />
     </div>
-    <h2>42</h2>
+    <h2>{mediumRiskCount}</h2>
     <p>Entities requiring close monitoring</p>
   </div>
 
@@ -141,7 +162,7 @@ const matchesSearch =
       <span>Low Risk</span>
       <Activity size={20} />
     </div>
-    <h2>126</h2>
+    <h2>{lowRiskCount}</h2>
     <p>Entities operating with lower risk</p>
   </div>
 
@@ -150,7 +171,7 @@ const matchesSearch =
       <span>Total Monitored</span>
       <TrendingUp size={20} />
     </div>
-    <h2>186</h2>
+    <h2>{totalMonitored}</h2>
     <p>Entities currently being monitored</p>
   </div>
 
@@ -166,6 +187,24 @@ const matchesSearch =
     </div>
     <span className="live-tag">RISK REGISTER</span>
   </div>
+  <div className="risk-filter-summary">
+  <div>
+    <strong>{filteredCount}</strong>
+    <span>
+      {riskFilter === "All" ? "Total matching entities" : `${riskFilter} risk entities`}
+    </span>
+  </div>
+
+  <div className="risk-filter-progress">
+    <div className="risk-filter-progress-track">
+      <div
+        className="risk-filter-progress-fill"
+        style={{ width: `${filteredPercentage}%` }}
+      ></div>
+    </div>
+    <span>{filteredPercentage}% of monitored entities</span>
+  </div>
+</div>
 
   <div className="risk-table-controls">
     <div className="risk-search">
@@ -205,7 +244,7 @@ const matchesSearch =
      
 <tbody>
   {filteredEntities.length > 0 ? (
-    filteredEntities.map((entity) => (
+    sortedEntities.map((entity) => (
       <tr
         key={entity.id}
         className="clickable-risk-row"
@@ -218,7 +257,15 @@ const matchesSearch =
         <td>{entity.location}</td>
 
         <td>
-          <strong>{entity.score}/100</strong>
+          <div className="risk-score-cell">
+            <strong>{entity.score}/100</strong>
+            <div className="risk-score-track">
+      <div
+        className={`risk-score-fill ${entity.risk.toLowerCase()}`}
+        style={{ width: `${entity.score}%` }}
+              ></div>
+            </div>
+          </div>
         </td>
 
         <td>
