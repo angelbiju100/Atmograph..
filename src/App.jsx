@@ -1,4 +1,4 @@
-
+import Disruptions from "./pages/Disruptions";
 import RiskMonitoring from "./pages/RiskMonitoring";
 import { useState } from "react";
 import Predictions from "./components/Predictions";
@@ -189,6 +189,9 @@ onClick={() => setActivePage(item.name)}
         <span>DEMO DATA · FRONTEND DEVELOPMENT</span>
       </div>
     </>
+    
+      ) : activePage === "Disruptions" ? (
+  <Disruptions />
 
   ) : activePage === "Dashboard" ? (
     <>

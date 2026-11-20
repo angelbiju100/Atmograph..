@@ -1637,3 +1637,229 @@
     width: 100%;
   }
 }
+
+/* DISRUPTION DETAILS */
+.disruption-card {
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.disruption-card:hover {
+  border-color: #54b9e9;
+  transform: translateY(-2px);
+}
+
+.disruption-details-panel {
+  margin-top: 22px;
+  padding: 22px;
+  background: #101725;
+  border: 1px solid #293447;
+  border-radius: 10px;
+}
+
+.disruption-details-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.disruption-details-header h2 {
+  margin: 8px 0;
+  font-size: 20px;
+}
+
+.disruption-details-header p {
+  color: #8995a8;
+  font-size: 13px;
+}
+
+.disruption-details-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.disruption-details-grid > div {
+  padding: 15px;
+  border: 1px solid #293447;
+  border-radius: 8px;
+}
+
+.disruption-details-grid span,
+.disruption-details-grid strong {
+  display: block;
+}
+
+.disruption-details-grid span {
+  color: #8995a8;
+  font-size: 11px;
+  margin-bottom: 8px;
+}
+
+.disruption-details-grid strong {
+  font-size: 15px;
+}
+
+.disruption-description {
+  margin-top: 18px;
+}
+
+.disruption-description h3 {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.disruption-description p {
+  color: #8995a8;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+@media (max-width: 600px) {
+  .disruption-details-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* RESET FILTERS BUTTON */
+
+.reset-filters-btn {
+  padding: 10px 15px;
+  background: transparent;
+  color: #9aa8bd;
+  border: 1px solid #293447;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.reset-filters-btn:hover {
+  background: #1b2637;
+  color: #ffffff;
+  border-color: #54b9e9;
+}
+
+/* SUPPLY CHAIN IMPACT ANALYSIS */
+
+.impacted-entities-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.impacted-entity {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 15px;
+  background: #151f2e;
+  border: 1px solid #293447;
+  border-radius: 8px;
+}
+
+.impacted-entity strong,
+.impacted-entity div span {
+  display: block;
+}
+
+.impacted-entity strong {
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+
+.impacted-entity div span {
+  color: #8995a8;
+  font-size: 11px;
+}
+
+.impact-risk {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 5px 9px;
+  border-radius: 5px;
+  background: #263447;
+  color: #dce7f5;
+  white-space: nowrap;
+}
+
+.impact-note {
+  margin-top: 14px;
+  font-size: 11px !important;
+  color: #718096 !important;
+  line-height: 1.6;
+}
+
+/* DISRUPTION PROPAGATION PATH */
+
+.impact-propagation {
+  margin-top: 22px;
+}
+
+.impact-propagation h4 {
+  font-size: 13px;
+  margin-bottom: 15px;
+  color: #dce7f5;
+}
+
+.propagation-path {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 15px;
+  background: #0c1421;
+  border: 1px solid #293447;
+  border-radius: 9px;
+}
+
+.propagation-node {
+  padding: 13px 15px;
+  background: #172438;
+  border: 1px solid #34465f;
+  border-radius: 7px;
+}
+
+.propagation-node strong,
+.propagation-node span {
+  display: block;
+}
+
+.propagation-node strong {
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+
+.propagation-node span {
+  color: #8995a8;
+  font-size: 11px;
+}
+
+.source-node {
+  border-color: #e49b50;
+  background: #30251b;
+}
+
+.source-node span {
+  color: #e9b477;
+}
+
+.propagation-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.propagation-arrow {
+  color: #54b9e9;
+  font-size: 19px;
+  font-weight: 700;
+}
+
