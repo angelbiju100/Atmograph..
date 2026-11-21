@@ -1,0 +1,88 @@
+ATMOGRAPH - DATASET INSPECTION REPORT
+==================================================
+
+SynDelay
+----------------------------------------
+Rows: 155488
+Columns: 41
+Column names: ['payment_type', 'profit_per_order', 'sales_per_customer', 'category_id', 'category_name', 'customer_city', 'customer_country', 'customer_id', 'customer_segment', 'customer_state', 'customer_zipcode', 'department_id', 'department_name', 'latitude', 'longitude', 'market', 'order_city', 'order_country', 'order_customer_id', 'order_date', 'order_id', 'order_item_cardprod_id', 'order_item_discount', 'order_item_discount_rate', 'order_item_id', 'order_item_product_price', 'order_item_profit_ratio', 'order_item_quantity', 'sales', 'order_item_total_amount', 'order_profit_per_order', 'order_region', 'order_state', 'order_status', 'product_card_id', 'product_category_id', 'product_name', 'product_price', 'shipping_date', 'shipping_mode', 'label']
+
+Missing values:
+payment_type                0
+profit_per_order            0
+sales_per_customer          0
+category_id                 0
+category_name               0
+customer_city               0
+customer_country            0
+customer_id                 0
+customer_segment            0
+customer_state              0
+customer_zipcode            0
+department_id               0
+department_name             0
+latitude                    0
+longitude                   0
+market                      0
+order_city                  0
+order_country               0
+order_customer_id           0
+order_date                  0
+order_id                    0
+order_item_cardprod_id      0
+order_item_discount         0
+order_item_discount_rate    0
+order_item_id               0
+order_item_product_price    0
+order_item_profit_ratio     0
+order_item_quantity         0
+sales                       0
+order_item_total_amount     0
+order_profit_per_order      0
+order_region                0
+order_state                 0
+order_status                0
+product_card_id             0
+product_category_id         0
+product_name                0
+product_price               0
+shipping_date               0
+shipping_mode               0
+label                       0
+
+AnonNet Nodes
+----------------------------------------
+Rows: 7245
+Columns: 3
+Column names: ['id', 'location', 'products']
+
+Missing values:
+id             0
+location    1490
+products     537
+
+AnonNet Edges
+----------------------------------------
+Rows: 43926
+Columns: 2
+Column names: ['source', 'target']
+
+Missing values:
+source    0
+target    0
+
+
+SynDelay Label Distribution
+----------------------------------------
+label
+0    36724
+1    29055
+2    89709
+
+
+AnonNet Network Statistics
+----------------------------------------
+Unique nodes: 7245
+Unique edge sources: 4008
+Unique edge targets: 7245
+Total edges: 43926
