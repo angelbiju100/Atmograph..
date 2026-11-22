@@ -1,6 +1,12 @@
+import NodeInvestigation from "../components/NodeInvestigation";
+import VisualNetworkExplorer from "../components/VisualNetworkExplorer";
 import { initialNodes, initialEdges } from "../data/mockGraph";
 import { getDownstreamNodeIds } from "../components/NetworkGraph";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import {
+  getNetworkSummary,
+  getTopNodes,
+} from "../services/networkApi";
 import {
   AlertTriangle,
   ShieldAlert,
@@ -8,11 +14,42 @@ import {
   TrendingUp,
   Search,
 } from "lucide-react";
+import DisruptionSimulator from "../components/DisruptionSimulator";
 
 function RiskMonitoring() {
   const [searchTerm, setSearchTerm] = useState("");
   const [riskFilter, setRiskFilter] = useState("All");
   const [selectedEntity, setSelectedEntity] = useState(null);
+  const [networkSummary, setNetworkSummary] = useState(null);
+  const [criticalNodes, setCriticalNodes] = useState([]);
+  const [networkLoading, setNetworkLoading] = useState(true);
+  const [networkError, setNetworkError] = useState("");
+
+  useEffect(() => {
+    const fetchNetworkData = async () => {
+      try {
+        setNetworkLoading(true);
+        setNetworkError("");
+
+        const [summary, topNodes] = await Promise.all([
+          getNetworkSummary(),
+          getTopNodes("betweenness", 5),
+        ]);
+
+        setNetworkSummary(summary);
+        setCriticalNodes(topNodes.nodes);
+      } catch (error) {
+        console.error("Network API error:", error);
+        setNetworkError(
+          "Unable to load live network intelligence. Check whether the backend is running."
+        );
+      } finally {
+        setNetworkLoading(false);
+      }
+    };
+
+    fetchNetworkData();
+  }, []);
 
   const riskEntities = [
     {
@@ -176,7 +213,99 @@ const filteredPercentage = Math.round(
   </div>
 
 </div>
+<div className="risk-table-section">
+  <div className="risk-table-heading">
+    <div>
+      <h2>Live Network Intelligence</h2>
+      <p>Real structural metrics from the AnonNet supply-chain network.</p>
+    </div>
+    <span className="live-tag">LIVE API DATA</span>
+  </div>
 
+  {networkLoading ? (
+    <p>Loading network intelligence...</p>
+  ) : networkError ? (
+    <p>{networkError}</p>
+  ) : networkSummary ? (
+    <>
+      <div className="risk-overview-grid">
+        <div className="risk-overview-card total">
+          <div className="risk-card-top">
+            <span>Network Nodes</span>
+            <Activity size={20} />
+          </div>
+          <h2>{networkSummary.total_nodes.toLocaleString()}</h2>
+          <p>Anonymised network entities</p>
+        </div>
+
+        <div className="risk-overview-card total">
+          <div className="risk-card-top">
+            <span>Network Connections</span>
+            <TrendingUp size={20} />
+          </div>
+          <h2>{networkSummary.total_edges.toLocaleString()}</h2>
+          <p>Directed connections</p>
+        </div>
+
+        <div className="risk-overview-card medium">
+          <div className="risk-card-top">
+            <span>Average In-degree</span>
+            <Activity size={20} />
+          </div>
+          <h2>{networkSummary.average_in_degree}</h2>
+          <p>Average incoming connections</p>
+        </div>
+
+        <div className="risk-overview-card medium">
+          <div className="risk-card-top">
+            <span>Average Out-degree</span>
+            <Activity size={20} />
+          </div>
+          <h2>{networkSummary.average_out_degree}</h2>
+          <p>Average outgoing connections</p>
+        </div>
+      </div>
+
+      <h3>Top 5 Structurally Critical Nodes</h3>
+      <p>Ranked by betweenness centrality.</p>
+
+      <div className="risk-table-wrapper">
+        <table className="risk-table">
+          <thead>
+            <tr>
+              <th>Node ID</th>
+              <th>Location</th>
+              <th>In-degree</th>
+              <th>Out-degree</th>
+              <th>Betweenness</th>
+            </tr>
+          </thead>
+          <tbody>
+            {criticalNodes.map((node) => (
+              <tr key={node.id}>
+                <td className="entity-name">{node.id}</td>
+                <td>{node.location || "Unknown"}</td>
+                <td>{node.in_degree}</td>
+                <td>{node.out_degree}</td>
+                <td>{Number(node.betweenness).toFixed(6)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <p>
+        Weakly connected components:{" "}
+        <strong>{networkSummary.weakly_connected_components}</strong>
+        {" · "}
+        Largest component:{" "}
+        <strong>{networkSummary.largest_component_size}</strong>
+        {" · "}
+        Self-loops: <strong>{networkSummary.self_loops}</strong>
+      </p>
+    </>
+  ) : null}
+</div>
       
 <div className="risk-table-section">
 
@@ -401,6 +530,9 @@ const filteredPercentage = Math.round(
 
 
 </div>
+<DisruptionSimulator />
+<NodeInvestigation />
+<VisualNetworkExplorer />
 
     </div>
   );
