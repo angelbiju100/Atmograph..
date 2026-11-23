@@ -1,0 +1,9 @@
+{
+    "experiment": "GraphSAGE without degree features",
+    "input_features": 618,
+    "best_epoch": 100,
+    "validation_roc_auc": 0.939598325818428,
+    "test_roc_auc": 0.9345284431925074,
+    "test_average_precision": 0.9259168371261837,
+    "seed": 42
+}

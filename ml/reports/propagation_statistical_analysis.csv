@@ -1,0 +1,5 @@
+transmission_probability,simulation_count,mean_affected,median_affected,std_affected,min_affected,percentile_25,percentile_75,percentile_95,max_affected,normal_ci_95_lower,normal_ci_95_upper,bootstrap_mean_ci_lower,bootstrap_mean_ci_upper,bootstrap_median_ci_lower,bootstrap_median_ci_upper,mean_percentage_affected
+0.05,100,28.91,8.0,59.0655,1,3.0,24.75,133.65,300,17.3332,40.4868,18.4792,41.5402,6.0,12.5,0.399
+0.1,100,877.52,1102.0,487.1031,2,828.0,1197.75,1329.6,1360,782.0478,972.9922,780.0172,972.7838,1041.0,1133.5,12.1121
+0.2,100,2822.65,2821.5,67.4203,2619,2779.5,2873.25,2923.15,2955,2809.4356,2835.8644,2809.8583,2835.3905,2800.0,2837.0,38.96
+0.3,100,3858.12,3861.5,46.1693,3727,3825.0,3894.25,3921.75,3977,3849.0708,3867.1692,3848.9395,3867.09,3843.0,3870.0,53.2522

@@ -1,0 +1,14 @@
+{
+    "task": "directed_link_prediction",
+    "dataset": "AnonNet",
+    "nodes": 7245,
+    "input_features": 620,
+    "training_edges": 35137,
+    "validation_edges": 4392,
+    "test_edges": 4393,
+    "best_epoch": 30,
+    "validation_roc_auc": 0.939829771011045,
+    "test_roc_auc": 0.9345391694430987,
+    "test_average_precision": 0.9302250543655805,
+    "seed": 42
+}

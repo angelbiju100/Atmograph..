@@ -1,0 +1,5 @@
+transmission_probability,total_affected,unaffected_nodes,percentage_affected,steps_completed
+0.05,11,7234,0.1518,3
+0.1,991,6254,13.6784,10
+0.2,2834,4411,39.1166,10
+0.3,3813,3432,52.6294,10
